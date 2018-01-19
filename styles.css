@@ -25,10 +25,10 @@ h1 {
   text-align: center;
   font-size: 12vmin;
   transform: translateX(calc(-50% - 6vmin)) translateY(-50%);
-  cursor: pointer;
 }
 
 p{
+  cursor: pointer;
   color: #1574cd;
   position:absolute;
   top:50%;
@@ -37,5 +37,24 @@ p{
   transform: translateX(calc(-50% + 22vmin)) translateY(calc(-50% + .5vmin));
   width: 10vmin;
   font-size: 4vmin;
-  font-family: 'Quicksand', sans-serif
+  font-family: 'Quicksand', sans-serif;
+  background-color:rgba(21, 116, 205, 0.15);
+  border-radius:1vmin;
+}
+
+p.webdev:hover {
+  -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+  -webkit-mask-size: 200%;
+  animation: shine 2s infinite;
+  transform: translateX(calc(-50% + 22vmin)) translateY(calc(-50% + .1vmin))
+}
+
+@-webkit-keyframes shine {
+  from {
+    -webkit-mask-position: 150%;
+  }
+  
+  to {
+    -webkit-mask-position: -50%;
+  }
 }
