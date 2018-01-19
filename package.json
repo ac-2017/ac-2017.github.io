@@ -2,8 +2,10 @@
   "name": "portfolio",
   "version": "1.0.0",
   "description": "Aaron Chan Portfolio",
+  "main": "index.js",
   "scripts": {
-    "react-dev": "webpack -d --watch"
+    "react-dev": "webpack -d --watch",
+    "server-dev": "nodemon localserver/index.js"
   },
   "author": "Aaron Chan",
   "license": "MIT",
@@ -15,6 +17,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "express": "^4.15.0",
     "jquery": "^3.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
