@@ -10,14 +10,16 @@ class App extends React.Component {
 
     }
     this.createWorld = this.createWorld.bind(this)
-    
     this.Engine = Matter.Engine
     this.Render = Matter.Render
     this.World = Matter.World
     this.Bodies = Matter.Bodies
+    this.Bounds = Matter.Bounds
     this.Mouse = Matter.Mouse
+    this.Events = Matter.Events
     this.MouseConstraint = Matter.MouseConstraint
     this.engine = this.Engine.create();
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -25,6 +27,12 @@ class App extends React.Component {
     $(window).resize(() => {
       this.createWorld()
     })
+  }
+
+  handleClick(box) {
+    if (box.label !== 'Rectangle Body' && box.label !== 'Circle Body') {
+      alert('You clicked on ' + box.label)
+    }
   }
 
   createWorld() {
@@ -45,6 +53,8 @@ class App extends React.Component {
     let height = $(window).height();
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
+    let vmin = Math.min(width, height)
+    let boxWidth = vmin*.2
     let render = this.Render.create({
         element: document.body,
         engine: this.engine,
@@ -58,45 +68,37 @@ class App extends React.Component {
     let ground = this.Bodies.rectangle(width/2, height+5, width, 5, {
       isStatic: true
     })
-    let leftWall = this.Bodies.rectangle(-2, height/2, 2, height, {
+    let leftWall = this.Bodies.rectangle(-2, height/2, 2, height*10, {
       isStatic: true
     })
-    let rightWall = this.Bodies.rectangle(width, height/2, 2, height, {
+    let rightWall = this.Bodies.rectangle(width, height/2, 2, height*10, {
       isStatic: true
     })
-    let boxName = this.Bodies.rectangle(width/2, height/2, nameWidth, nameHeight*.35, {
+    let boxName = this.Bodies.rectangle(width/2, height*.29, nameWidth*1.3, nameHeight*.35, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
       }
     })
-    let circleName = this.Bodies.circle(width/2, height/2, nameWidth/2+50, {
+    let circleName = this.Bodies.circle(width/2, height*.35, nameWidth/2, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
       }
     })
-    let circlePointer = this.Bodies.circle(width/2+nameWidth/2, height/2+nameHeight/2-10, 20, {
-      isStatic: true,
-      render: {
-        sprite: {
-          texture: 'https://d30y9cdsu7xlg0.cloudfront.net/png/19119-200.png',
-          xScale: .1,
-          yScale: .1
-        }
-      }
-    })
-    let boxJS = this.Bodies.rectangle(600, 200, 100*2, 100*2, {
+    let boxJS = this.Bodies.rectangle(600, 200, boxWidth, boxWidth, {
+      label: 'JavaScript',
       angle: 2,
       render: {
         sprite: {
           texture: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Javascript-736400_960_720.png',
-          xScale: 0.138888889*2,
-          yScale: 0.138888889*2
+          xScale: boxWidth/720,
+          yScale: boxWidth/720
         }
       }
     });
     let boxHTML = this.Bodies.rectangle(600, 200, 100*2, 100*2, {
+      label: 'HTML',
       angle: 2,
       render: {
         sprite: {
@@ -107,6 +109,7 @@ class App extends React.Component {
       }
     });
     let circleGit = this.Bodies.circle(width/3, height/3, 100, {
+      label: 'Github',
       render: {
         sprite: {
           texture: 'https://image.flaticon.com/icons/svg/25/25231.svg',
@@ -116,6 +119,7 @@ class App extends React.Component {
       }
     })
     let boxSQL = this.Bodies.rectangle(650, 50, 100*2, 100*2, {
+      label: 'mySQL',
       render: {
         sprite: {
           texture: 'http://fixstream.com/wp-content/uploads/2015/08/mysql-logo-square.jpg',
@@ -126,6 +130,7 @@ class App extends React.Component {
     });
     let boxReact = this.Bodies.rectangle(width*.7, 10, 100*2, 100*2, {
       angle: 3,
+      label: 'React',
       render: {
         sprite: {
           texture: 'https://cdn.worldvectorlogo.com/logos/react-1.svg',
@@ -135,6 +140,7 @@ class App extends React.Component {
       }
     });
     let boxAngular = this.Bodies.rectangle(width*.8, 25, 100*2, 100*2, {
+      label: 'Angular',
       angle:2,
       render: {
         sprite: {
@@ -145,6 +151,7 @@ class App extends React.Component {
       }
     }) 
     let boxMongo = this.Bodies.rectangle(300, 30, 100*2, 100*2, {
+      label: 'MongoDB',
       angle: 1.5,
       render: {
         sprite: {
@@ -155,6 +162,7 @@ class App extends React.Component {
       }
     });
     let boxJQuery = this.Bodies.rectangle(300, 30, 100*2, 100*2, {
+      label: 'jQuery',
       angle: 5,
       render: {
         sprite: {
@@ -164,19 +172,36 @@ class App extends React.Component {
         }
       }
     });
-    let mouse = this.Mouse.create(render.canvas),
-        mouseConstraint = this.MouseConstraint.create(this.engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                render: {
-                    visible: false
-                }
+    let mouse = this.Mouse.create(render.canvas)
+    this.MouseConstraint.update = (mouseConstraint, bodies) => {
+      let mouse = mouseConstraint.mouse
+      if (mouse.button === 0) {
+        for (var i = 0; i < bodies.length; i++) {
+          let body = bodies[i]
+          if (this.Bounds.contains(body.bounds, mouse.position)) {
+            this.handleClick(body)
+            mouse.button = -1
+          }
+        }
+      }
+    }
+    let mouseConstraint = this.MouseConstraint.create(this.engine, {
+        mouse: mouse,
+          constraint: {
+            stiffness: 0.2,
+            render: {
+              visible: false
             }
-        });
-    this.World.add(this.engine.world, [circleName, boxName, boxHTML, circlePointer, boxJS, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall]);
+          }
+      });
+
+
+    this.World.add(this.engine.world, [mouseConstraint, circleName, boxName, boxHTML, boxJS, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall]);
     // World.add(engine.world, mouse)
     // render.mouse = mouse
+    // this.Events.on(mouseConstraint, "mousedown", (e) => {
+    //   console.log('ouch', e)
+    // })
     this.Engine.run(this.engine);
     this.Render.run(render);
   }
@@ -186,7 +211,7 @@ class App extends React.Component {
 
 //
   render () {
-    return (<h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p></h1>)
+    return (<div><h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p><p>WEB DEV</p></h1><button onClick={() => {alert('Dont work yet')}}>It's Raining</button></div>)
   }
 }
 
