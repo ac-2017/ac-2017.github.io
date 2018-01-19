@@ -1,13 +1,14 @@
 * {
   margin: 0;
-  overflow: hidden;
+  padding:0;
+  /*overflow-x: hidden;*/
   font-family: 'Roboto', sans-serif;
   /*font-family: 'Alegreya Sans SC', sans-serif;*/
 }
 
 body {
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   padding: 0;
   background-color: #eee;
 }
@@ -23,6 +24,18 @@ h1 {
   left: 50%;
   text-align: center;
   font-size: 12vmin;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translateX(calc(-50% - 6vmin)) translateY(-50%);
   cursor: pointer;
+}
+
+p{
+  color: #1574cd;
+  position:absolute;
+  top:50%;
+  left: 50%;
+  text-align:center;
+  transform: translateX(calc(-50% + 22vmin)) translateY(calc(-50% + .5vmin));
+  width: 10vmin;
+  font-size: 4vmin;
+  font-family: 'Quicksand', sans-serif
 }

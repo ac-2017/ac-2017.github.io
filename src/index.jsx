@@ -10,68 +10,83 @@ class App extends React.Component {
 
     }
     this.createWorld = this.createWorld.bind(this)
+    
+    this.Engine = Matter.Engine
+    this.Render = Matter.Render
+    this.World = Matter.World
+    this.Bodies = Matter.Bodies
+    this.Mouse = Matter.Mouse
+    this.MouseConstraint = Matter.MouseConstraint
+    this.engine = this.Engine.create();
   }
 
   componentDidMount() {
     this.createWorld()
+    $(window).resize(() => {
+      this.createWorld()
+    })
   }
 
   createWorld() {
-    var Engine = Matter.Engine,
-        Render = Matter.Render,
-        World = Matter.World,
-        Bodies = Matter.Bodies;
-
-// create an engine
-    var engine = Engine.create();
-    engine.world.gravity.scale *=5
-// create a renderer
+    $("canvas").remove();
+    // let Engine = Matter.Engine,
+    //     Render = Matter.Render,
+    //     World = Matter.World,
+    //     Bodies = Matter.Bodies,
+    //     Mouse = Matter.Mouse,
+    //     MouseConstraint = Matter.MouseConstraint;
+    this.engine.events = {};
+    this.World.clear(this.engine.world);
+    this.Engine.clear(this.engine);
+    this.engine = this.Engine.create()
+    this.engine.world.gravity.scale *=5
 
     let width = $(window).width();
     let height = $(window).height();
-    // $("canvas").remove();
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
-    // console.log(h1width)
-    // engine.events = {};
-    // World.clear(engine.world);
-    // Engine.clear(engine);
-    var render = Render.create({
+    let render = this.Render.create({
         element: document.body,
-        engine: engine,
+        engine: this.engine,
         options: {
           wireframes: false,
           background: 'transparent',
           height: height,
-          width: width
+          width: width-1
         }
     });
-    var ground = Bodies.rectangle(width/2, height, width, 5, {
+    let ground = this.Bodies.rectangle(width/2, height+5, width, 5, {
       isStatic: true
     })
-    var leftWall = Bodies.rectangle(0, height/2, 5, height, {
+    let leftWall = this.Bodies.rectangle(-2, height/2, 2, height, {
       isStatic: true
     })
-    var rightWall = Bodies.rectangle(width, height/2, 5, height, {
+    let rightWall = this.Bodies.rectangle(width, height/2, 2, height, {
       isStatic: true
     })
-
-    var boxName = Bodies.rectangle(width/2, height/2, nameWidth, nameHeight*.35, {
+    let boxName = this.Bodies.rectangle(width/2, height/2, nameWidth, nameHeight*.35, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
       }
     })
-
-    var circleName = Bodies.circle(width/2, height/2, nameWidth/2, {
+    let circleName = this.Bodies.circle(width/2, height/2, nameWidth/2+50, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
       }
     })
-
-
-    var boxJS = Bodies.rectangle(600, 200, 100*2, 100*2, {
+    let circlePointer = this.Bodies.circle(width/2+nameWidth/2, height/2+nameHeight/2-10, 20, {
+      isStatic: true,
+      render: {
+        sprite: {
+          texture: 'https://d30y9cdsu7xlg0.cloudfront.net/png/19119-200.png',
+          xScale: .1,
+          yScale: .1
+        }
+      }
+    })
+    let boxJS = this.Bodies.rectangle(600, 200, 100*2, 100*2, {
       angle: 2,
       render: {
         sprite: {
@@ -81,7 +96,26 @@ class App extends React.Component {
         }
       }
     });
-    var boxSQL = Bodies.rectangle(650, 50, 100*2, 100*2, {
+    let boxHTML = this.Bodies.rectangle(600, 200, 100*2, 100*2, {
+      angle: 2,
+      render: {
+        sprite: {
+          texture: 'html.png',
+          xScale: 0.138888889*2,
+          yScale: 0.138888889*2
+        }
+      }
+    });
+    let circleGit = this.Bodies.circle(width/3, height/3, 100, {
+      render: {
+        sprite: {
+          texture: 'https://image.flaticon.com/icons/svg/25/25231.svg',
+          xScale: 0.227790433*2,
+          yScale: 0.227790433*2
+        }
+      }
+    })
+    let boxSQL = this.Bodies.rectangle(650, 50, 100*2, 100*2, {
       render: {
         sprite: {
           texture: 'http://fixstream.com/wp-content/uploads/2015/08/mysql-logo-square.jpg',
@@ -90,8 +124,7 @@ class App extends React.Component {
         }
       }
     });
-
-    var boxReact = Bodies.rectangle(400, 10, 100*2, 100*2, {
+    let boxReact = this.Bodies.rectangle(width*.7, 10, 100*2, 100*2, {
       angle: 3,
       render: {
         sprite: {
@@ -101,9 +134,18 @@ class App extends React.Component {
         }
       }
     });
-
-    var boxMongo = Bodies.rectangle(300, 30, 100*2, 100*2, {
-      angle: 3,
+    let boxAngular = this.Bodies.rectangle(width*.8, 25, 100*2, 100*2, {
+      angle:2,
+      render: {
+        sprite: {
+          texture: 'https://juststickers.in/wp-content/uploads/2013/06/AngularJS-Square1.jpg',
+          xScale: 0.189393939*2,
+          yScale: 0.189393939*2
+        }
+      }
+    }) 
+    let boxMongo = this.Bodies.rectangle(300, 30, 100*2, 100*2, {
+      angle: 1.5,
       render: {
         sprite: {
           texture: 'http://www.knhopkins.com/assets/MongoDB.png',
@@ -112,8 +154,7 @@ class App extends React.Component {
         }
       }
     });
-
-    var boxJQuery = Bodies.rectangle(300, 30, 100*2, 100*2, {
+    let boxJQuery = this.Bodies.rectangle(300, 30, 100*2, 100*2, {
       angle: 5,
       render: {
         sprite: {
@@ -123,10 +164,21 @@ class App extends React.Component {
         }
       }
     });
-
-    World.add(engine.world, [circleName, boxName, boxJS, boxSQL, boxReact, boxMongo, boxJQuery, ground, leftWall, rightWall]);
-    Engine.run(engine);
-    Render.run(render);
+    let mouse = this.Mouse.create(render.canvas),
+        mouseConstraint = this.MouseConstraint.create(this.engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+    this.World.add(this.engine.world, [circleName, boxName, boxHTML, circlePointer, boxJS, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall]);
+    // World.add(engine.world, mouse)
+    // render.mouse = mouse
+    this.Engine.run(this.engine);
+    this.Render.run(render);
   }
 
 
@@ -134,7 +186,7 @@ class App extends React.Component {
 
 
   render () {
-    return (<h1 className="name">Aaron<span></span></h1>)
+    return (<h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p></h1>)
   }
 }
 
