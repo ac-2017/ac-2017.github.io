@@ -7,7 +7,9 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      bulletTime: false
+      bulletTime: false,
+      startClickPos: {},
+      endClickPos: {} 
     }
     this.createWorld = this.createWorld.bind(this)
     this.Engine = Matter.Engine
@@ -33,10 +35,11 @@ class App extends React.Component {
       this.createWorld()
     })
   }
-
   handleClick(box) {
-    if (box.label !== 'Rectangle Body' && box.label !== 'Circle Body') {
-      // this.bulletTime(this.engine)
+    if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
+      if (box !== 'Rectangle Body' && box !== 'Circle Body') {
+        alert('This function will be added soon')
+      } 
     }
   }
   handleBulletTime() {
@@ -148,7 +151,7 @@ class App extends React.Component {
         }
       }
     });
-    let circleGit = this.Bodies.circle(width/3, height/3, boxWidth/2, {
+    let circleGit = this.Bodies.circle(width/2.7, height/3, boxWidth/2, {
       label: 'Github',
       render: {
         sprite: {
@@ -225,18 +228,6 @@ class App extends React.Component {
     });
 
     let mouse = this.Mouse.create(render.canvas)
-    this.MouseConstraint.update = (mouseConstraint, bodies) => {
-      let mouse = mouseConstraint.mouse
-      if (mouse.button === 0) {
-        for (var i = 0; i < bodies.length; i++) {
-          let body = bodies[i]
-          if (this.Bounds.contains(body.bounds, mouse.position)) {
-            this.handleClick(body)
-            mouse.button = -1
-          }
-        }
-      }
-    }
     let mouseConstraint = this.MouseConstraint.create(this.engine, {
         mouse: mouse,
           constraint: {
@@ -246,24 +237,23 @@ class App extends React.Component {
             }
           }
       });
-
-
     this.World.add(this.engine.world, [mouseConstraint, circleName, boxName, boxHTML, boxJS, boxSublime, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall, ceiling]);
-    // World.add(engine.world, mouse)
-    // render.mouse = mouse
-    // this.Events.on(mouseConstraint, "mousedown", (e) => {
-    //   console.log('ouch', e)
-    // })
+    this.Events.on(mouseConstraint, "startdrag", (e) => {
+      this.setState({
+        startClickPos: {x: e.mouse.absolute.x, y: e.mouse.absolute.y}
+      })
+    })
+    this.Events.on(mouseConstraint, "enddrag", (e) => {
+      this.setState({
+        endClickPos: {x: e.mouse.absolute.x, y: e.mouse.absolute.y}
+      })
+      this.handleClick(e.body.label)
+    })
     this.Engine.run(this.engine);
     this.Render.run(render);
   }
-
-
-
-
-//
   render () {
-    return (<div><h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p><p>WEB DEV</p></h1><button onClick={() => {this.handleBulletTime()}}>Bullet Time</button></div>)
+    return (<div><h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p><p>WEB DEV</p></h1><h1 className="tutorial">Click or drag an icon!</h1><button onClick={() => {this.handleBulletTime()}}>Activate Bullet Time</button></div>)
   }
 }
 

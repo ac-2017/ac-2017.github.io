@@ -15,7 +15,7 @@ body {
   margin:0;
   padding:0;
 }
-h1 {
+h1.name {
   font-weight: 100;
   position: absolute;
   top: 30%;
@@ -23,6 +23,16 @@ h1 {
   text-align: center;
   font-size: 12vmin;
   transform: translateX(calc(-50% - 6vmin)) translateY(-50%);
+}
+h1.tutorial {
+  font-weight: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  font-size: 3vmin;
+  width: 20vmin;
+  transform: translateX(-50%) translateY(calc(-60% - 6vmax));
 }
 p{
   color: #1574cd;
@@ -81,7 +91,7 @@ button{
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, .1);
   border-radius: 2px;
   padding: 12px 36px;
-  font-size: 3.5vmin;
+  font-size: 3vmin;
   transition: background .5s linear;
 }
 
