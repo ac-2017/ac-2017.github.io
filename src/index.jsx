@@ -51,7 +51,12 @@ class App extends React.Component {
   handleClick(box) {
     if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
       if (box !== 'Rectangle Body' && box !== 'Circle Body') {
-        this.handleModal(box)
+        if (box === 'Email') {
+          this.handleModal(box)
+        } 
+        if (box === 'Github') {
+          window.open("https://github.com/ac-2017", "_blank")
+        }
       } 
     }
   }
@@ -198,13 +203,13 @@ class App extends React.Component {
     let ceiling = this.Bodies.rectangle(width/2, -height/2, width*2, 5, {
       isStatic: true
     })
-    let boxName = this.Bodies.rectangle(width/2, height*.29, nameWidth*1.3, nameHeight*.35, {
+    let boxName = this.Bodies.rectangle(width/2, height*.4, nameWidth*1.3, nameHeight*.35, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
       }
     })
-    let circleName = this.Bodies.circle(width/2, height*.35, nameWidth/2, {
+    let circleName = this.Bodies.circle(width/2, height*.45, nameWidth/2, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
@@ -234,7 +239,7 @@ class App extends React.Component {
         }
       }
     });
-    let circleGit = this.Bodies.circle(50, -110, boxWidth/2, {
+    let circleGit = this.Bodies.circle(100, -100, boxWidth/2, {
       label: 'Github',
       isStatic: true,
       render: {
@@ -242,6 +247,17 @@ class App extends React.Component {
           texture: 'github.svg',
           xScale: boxWidth/438.549,
           yScale: boxWidth/438.549
+        }
+      }
+    })
+    let circleEmail = this.Bodies.circle(200, -100, boxWidth/2, {
+      label: 'Email',
+      isStatic: true,
+      render: {
+        sprite: {
+          texture: 'email.png',
+          xScale: boxWidth/2400,
+          yScale: boxWidth/2400
         }
       }
     })
@@ -316,7 +332,7 @@ class App extends React.Component {
         }
       }
     });
-    this.World.add(this.engine.world, [this.mouseConstraint, boxName, circleName, boxJS, boxHTML, circleGit, boxReact, boxAngular, boxSQL, boxMongo, boxJQuery, boxSublime, ground, leftWall, rightWall, ceiling])
+    this.World.add(this.engine.world, [this.mouseConstraint, boxName, circleName, circleEmail, boxJS, boxHTML, circleGit, boxReact, boxAngular, boxSQL, boxMongo, boxJQuery, boxSublime, ground, leftWall, rightWall, ceiling])
     setTimeout(() => {
       this.Body.setStatic(boxJS, false)
     },1000)
@@ -325,7 +341,8 @@ class App extends React.Component {
     },2000)
     setTimeout(() => {
       this.Body.setStatic(circleGit, false)
-    },2500)
+      this.Body.setStatic(circleEmail, false)
+    },2000)
     setTimeout(() => {
       this.Body.setStatic(boxReact, false)
       this.Body.setStatic(boxAngular, false)
@@ -341,11 +358,11 @@ class App extends React.Component {
     return (<div>
       <Modal isOpen={this.state.showModal} ariaHideApp={false} style={{overlay: {animation: 'fadein .25s'}, content: {animation: 'fadein .4s', position:'absolute', textAlign: 'center'}}}>
       <div style={{backgroundColor: '#eee', height: '90%', fontSize: '7vmin', overflowY:'scroll'}}>
-      <p>{'I know ' + this.state.box}</p>
+      <p>{'Email me: aaron.111317@gmail.com'}</p>
       </div>
       <button className="closeModal" onClick={() => {this.handleModal()}}>Close</button>
       </Modal>
-      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1><h1 className="tutorial">Click or drag an icon!</h1><button className="bullet" onClick={() => {this.handleBulletTime()}}>Activate Bullet Time</button><button className="reload" onClick={() => {this.handleReload()}}>Restart Sandbox</button><button className="rain" onClick={() => {this.toggleRain()}}>☔</button></div>)
+      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1><h1 className="tutorial">Click or drag an icon!</h1><button className="bullet" onClick={() => {this.handleBulletTime()}}>🌪️</button><button className="reload" onClick={() => {this.handleReload()}}>🔄</button><button className="rain" onClick={() => {this.toggleRain()}}>☔</button></div>)
   }
 }
 
