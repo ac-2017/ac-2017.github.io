@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import Modal from 'react-modal';
 // import AnyComponent from './components/filename.jsx'
 
 class App extends React.Component {
@@ -9,7 +10,9 @@ class App extends React.Component {
     this.state = {
       bulletTime: false,
       startClickPos: {},
-      endClickPos: {} 
+      endClickPos: {},
+      showModal: false,
+      box: ''
     }
     this.createWorld = this.createWorld.bind(this)
     this.Engine = Matter.Engine
@@ -27,6 +30,7 @@ class App extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.bulletTime = this.bulletTime.bind(this)
     this.handleBulletTime = this.handleBulletTime.bind(this)
+    this.handleModal = this.handleModal.bind(this)
   }
 
   componentDidMount() {
@@ -38,9 +42,15 @@ class App extends React.Component {
   handleClick(box) {
     if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
       if (box !== 'Rectangle Body' && box !== 'Circle Body') {
-        alert('This function will be added soon')
+        this.handleModal(box)
       } 
     }
+  }
+  handleModal(box) {
+    this.setState({
+      box: box,
+      showModal: !this.state.showModal
+    })
   }
   handleBulletTime() {
     if (!this.state.bulletTime) {
@@ -216,7 +226,7 @@ class App extends React.Component {
       }
     });
     let boxSublime = this.Bodies.rectangle(300, 30, boxWidth, boxWidth, {
-      label: 'jQuery',
+      label: 'Sublime Text',
       angle: 5,
       render: {
         sprite: {
@@ -253,7 +263,14 @@ class App extends React.Component {
     this.Render.run(render);
   }
   render () {
-    return (<div><h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p><p>WEB DEV</p></h1><h1 className="tutorial">Click or drag an icon!</h1><button onClick={() => {this.handleBulletTime()}}>Activate Bullet Time</button></div>)
+    return (<div>
+      <Modal isOpen={this.state.showModal} style={{overlay: {animation: 'fadein .25s'}, content: {animation: 'fadein .4s', position:'absolute', textAlign: 'center'}}}>
+      <div style={{backgroundColor: '#eee', height: '90%', fontSize: '7vmin', overflowY:'scroll'}}>
+      <p>{'I know ' + this.state.box}</p>
+      </div>
+      <button className="closeModal" onClick={() => {this.handleModal()}}>Close</button>
+      </Modal>
+      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1><h1 className="tutorial">Click or drag an icon!</h1><button className="bullet" onClick={() => {this.handleBulletTime()}}>Activate Bullet Time</button></div>)
   }
 }
 

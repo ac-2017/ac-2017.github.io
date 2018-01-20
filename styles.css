@@ -34,7 +34,7 @@ h1.tutorial {
   width: 20vmin;
   transform: translateX(-50%) translateY(calc(-60% - 6vmax));
 }
-p{
+p.webdev{
   color: #1574cd;
   font-weight: 400;
   position:absolute;
@@ -46,7 +46,7 @@ p{
   font-size: 4vmin;
   font-family: 'Quicksand', sans-serif;
 }
-p.webdev{
+p.webdev2{
   color: #1574cd;
   font-weight: 400;
   position:absolute;
@@ -76,7 +76,7 @@ p.webdev:hover {
     -webkit-mask-position: -50%;
   }
 }
-button{
+button.bullet{
   position:absolute;
   top:50%;
   left:50%;
@@ -95,10 +95,32 @@ button{
   transition: background .5s linear;
 }
 
+button.closeModal{
+  background: rgba(21, 116, 205, 0.6);
+  color: #fff;
+  position: relative;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  margin-top: 1vmin;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, .1);
+  border-radius: 2px;
+  padding: 12px 36px;
+  font-size: 3vmin;
+  transition: background .5s linear;
+}
+
 button:hover{
   background: rgba(21, 116, 205, 0.9);
 }
 button:active{
   background: rgba(21, 116, 205, 0.1);
   transition: background .1s linear;
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
