@@ -13,13 +13,18 @@ class App extends React.Component {
     this.Engine = Matter.Engine
     this.Render = Matter.Render
     this.World = Matter.World
+    this.Body = Matter.Body
     this.Bodies = Matter.Bodies
     this.Bounds = Matter.Bounds
+    this.Composite = Matter.Composite
+    this.Common = Matter.Common
     this.Mouse = Matter.Mouse
     this.Events = Matter.Events
     this.MouseConstraint = Matter.MouseConstraint
     this.engine = this.Engine.create();
     this.handleClick = this.handleClick.bind(this)
+    this.bulletTime = this.bulletTime.bind(this)
+    this.handleBulletTime = this.handleBulletTime.bind(this)
   }
 
   componentDidMount() {
@@ -31,9 +36,32 @@ class App extends React.Component {
 
   handleClick(box) {
     if (box.label !== 'Rectangle Body' && box.label !== 'Circle Body') {
-      alert('You clicked on ' + box.label)
+      // this.bulletTime(this.engine)
     }
   }
+  handleBulletTime() {
+    this.bulletTime(this.engine)
+  }
+  bulletTime(engine) {
+    var bodies = this.Composite.allBodies(engine.world);
+    for (var i = 0; i < bodies.length; i++) {
+      var body = bodies[i];
+      if (!body.isStatic) {
+        var forceMagnitude = 0.11 * body.mass;
+        this.Body.applyForce(body, body.position, { 
+          x: 0, 
+          y: -forceMagnitude + this.Common.random() * -forceMagnitude
+        });
+      }
+    }
+    setTimeout(() => {
+      this.engine.world.gravity.scale /= 10
+    },300)
+    setTimeout(() => {
+      this.engine.world.gravity.scale *=10
+    },1500)
+  }
+  
 
   createWorld() {
     $("canvas").remove();
@@ -72,6 +100,9 @@ class App extends React.Component {
       isStatic: true
     })
     let rightWall = this.Bodies.rectangle(width, height/2, 2, height*10, {
+      isStatic: true
+    })
+    let ceiling = this.Bodies.rectangle(width/2, -height, width, 5, {
       isStatic: true
     })
     let boxName = this.Bodies.rectangle(width/2, height*.29, nameWidth*1.3, nameHeight*.35, {
@@ -196,7 +227,7 @@ class App extends React.Component {
       });
 
 
-    this.World.add(this.engine.world, [mouseConstraint, circleName, boxName, boxHTML, boxJS, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall]);
+    this.World.add(this.engine.world, [mouseConstraint, circleName, boxName, boxHTML, boxJS, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall, ceiling]);
     // World.add(engine.world, mouse)
     // render.mouse = mouse
     // this.Events.on(mouseConstraint, "mousedown", (e) => {
@@ -211,7 +242,7 @@ class App extends React.Component {
 
 //
   render () {
-    return (<div><h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p><p>WEB DEV</p></h1><button onClick={() => {alert('Dont work yet')}}>It's Raining</button></div>)
+    return (<div><h1 className="name">Aaron<span></span><p className="webdev">WEB DEV</p><p>WEB DEV</p></h1><button onClick={() => {this.handleBulletTime()}}>Bullet Time</button></div>)
   }
 }
 
