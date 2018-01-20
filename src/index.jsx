@@ -143,7 +143,7 @@ class App extends React.Component {
       angle: 2,
       render: {
         sprite: {
-          texture: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Javascript-736400_960_720.png',
+          texture: 'javascript720.png',
           xScale: boxWidth/720,
           yScale: boxWidth/720
         }
@@ -153,9 +153,8 @@ class App extends React.Component {
       label: 'HTML',
       angle: 2,
       render: {
-        fillStyle: 'black',
         sprite: {
-          texture: 'http://www.syntaxxx.com/wp-content/uploads/2014/01/html5-logo-300.png',
+          texture: 'html300.png',
           xScale: boxWidth/300,
           yScale: boxWidth/300
         }
@@ -165,7 +164,7 @@ class App extends React.Component {
       label: 'Github',
       render: {
         sprite: {
-          texture: 'https://image.flaticon.com/icons/svg/25/25231.svg',
+          texture: 'github.svg',
           xScale: boxWidth/438.549,
           yScale: boxWidth/438.549
         }
@@ -175,7 +174,7 @@ class App extends React.Component {
       label: 'mySQL',
       render: {
         sprite: {
-          texture: 'http://fixstream.com/wp-content/uploads/2015/08/mysql-logo-square.jpg',
+          texture: 'mysql.jpg',
           xScale: boxWidth/400,
           yScale: boxWidth/400
         }
@@ -186,7 +185,7 @@ class App extends React.Component {
       label: 'React',
       render: {
         sprite: {
-          texture: 'https://cdn.worldvectorlogo.com/logos/react-1.svg',
+          texture: 'react.svg',
           xScale: boxWidth/3618.59,
           yScale: boxWidth/3618.59
         }
@@ -197,9 +196,9 @@ class App extends React.Component {
       angle:2,
       render: {
         sprite: {
-          texture: 'https://juststickers.in/wp-content/uploads/2013/06/AngularJS-Square1.jpg',
-          xScale: boxWidth/528,
-          yScale: boxWidth/528
+          texture: 'angular.jpg',
+          xScale: boxWidth/250,
+          yScale: boxWidth/250
         }
       }
     }) 
@@ -208,7 +207,7 @@ class App extends React.Component {
       angle: 1.5,
       render: {
         sprite: {
-          texture: 'http://www.knhopkins.com/assets/MongoDB.png',
+          texture: 'MongoDB.png',
           xScale: boxWidth/245,
           yScale: boxWidth/245
         }
@@ -219,7 +218,7 @@ class App extends React.Component {
       angle: 5,
       render: {
         sprite: {
-          texture: 'https://www.seeklogo.net/wp-content/uploads/2014/10/jquery-logo-vector-download.jpg',
+          texture: 'jquery.jpg',
           xScale: boxWidth/512,
           yScale: boxWidth/512
         }
@@ -230,7 +229,7 @@ class App extends React.Component {
       angle: 5,
       render: {
         sprite: {
-          texture: 'https://upload.wikimedia.org/wikipedia/en/d/d2/Sublime_Text_3_logo.png',
+          texture: 'sublime.png',
           xScale: boxWidth/256,
           yScale: boxWidth/256
         }
