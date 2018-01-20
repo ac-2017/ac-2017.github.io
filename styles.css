@@ -25,7 +25,6 @@ h1 {
   transform: translateX(calc(-50% - 6vmin)) translateY(-50%);
 }
 p{
-  cursor: pointer;
   color: #1574cd;
   font-weight: 400;
   position:absolute;
@@ -38,7 +37,6 @@ p{
   font-family: 'Quicksand', sans-serif;
 }
 p.webdev{
-  cursor: pointer;
   color: #1574cd;
   font-weight: 400;
   position:absolute;
@@ -72,8 +70,8 @@ button{
   position:absolute;
   top:50%;
   left:50%;
-  transform: translateX(calc(-50%)) translateY(calc(-50% - 8vmin));
-  background: rgba(21, 116, 205, 0.66);
+  transform: translateX(calc(-50%)) translateY(calc(-60%));
+  background: rgba(21, 116, 205, 0.6);
   color: #fff;
   border: 0;
   outline: 0;
@@ -83,9 +81,14 @@ button{
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, .1);
   border-radius: 2px;
   padding: 12px 36px;
+  font-size: 3.5vmin;
+  transition: background .5s linear;
 }
 
 button:hover{
-  background: darken(rgba(21, 116, 205, 0.66), 10%);
-  box-shadow: -1px 1px 2px 1px rgba(255, 255, 255, .3);
+  background: rgba(21, 116, 205, 0.9);
+}
+button:active{
+  background: rgba(21, 116, 205, 0.1);
+  transition: background .1s linear;
 }

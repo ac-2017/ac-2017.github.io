@@ -7,7 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      bulletTime: false
     }
     this.createWorld = this.createWorld.bind(this)
     this.Engine = Matter.Engine
@@ -40,7 +40,12 @@ class App extends React.Component {
     }
   }
   handleBulletTime() {
-    this.bulletTime(this.engine)
+    if (!this.state.bulletTime) {
+      this.setState({
+        bulletTime: true
+      })
+      this.bulletTime(this.engine)
+    }
   }
   bulletTime(engine) {
     var bodies = this.Composite.allBodies(engine.world);
@@ -60,9 +65,12 @@ class App extends React.Component {
     setTimeout(() => {
       this.engine.world.gravity.scale *=10
     },1500)
+    setTimeout(() => {
+      this.setState({
+        bulletTime: false
+      })
+    },2500)
   }
-  
-
   createWorld() {
     $("canvas").remove();
     // let Engine = Matter.Engine,
@@ -82,7 +90,7 @@ class App extends React.Component {
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
     let vmin = Math.min(width, height)
-    let boxWidth = vmin*.2
+    let boxWidth = vmin*.175
     let render = this.Render.create({
         element: document.body,
         engine: this.engine,
@@ -102,7 +110,7 @@ class App extends React.Component {
     let rightWall = this.Bodies.rectangle(width, height/2, 2, height*10, {
       isStatic: true
     })
-    let ceiling = this.Bodies.rectangle(width/2, -height, width, 5, {
+    let ceiling = this.Bodies.rectangle(width/2, -height/2, width*2, 5, {
       isStatic: true
     })
     let boxName = this.Bodies.rectangle(width/2, height*.29, nameWidth*1.3, nameHeight*.35, {
@@ -128,81 +136,94 @@ class App extends React.Component {
         }
       }
     });
-    let boxHTML = this.Bodies.rectangle(600, 200, 100*2, 100*2, {
+    let boxHTML = this.Bodies.rectangle(600, 200, boxWidth, boxWidth, {
       label: 'HTML',
       angle: 2,
       render: {
+        fillStyle: 'black',
         sprite: {
-          texture: 'html.png',
-          xScale: 0.138888889*2,
-          yScale: 0.138888889*2
+          texture: 'http://www.syntaxxx.com/wp-content/uploads/2014/01/html5-logo-300.png',
+          xScale: boxWidth/300,
+          yScale: boxWidth/300
         }
       }
     });
-    let circleGit = this.Bodies.circle(width/3, height/3, 100, {
+    let circleGit = this.Bodies.circle(width/3, height/3, boxWidth/2, {
       label: 'Github',
       render: {
         sprite: {
           texture: 'https://image.flaticon.com/icons/svg/25/25231.svg',
-          xScale: 0.227790433*2,
-          yScale: 0.227790433*2
+          xScale: boxWidth/438.549,
+          yScale: boxWidth/438.549
         }
       }
     })
-    let boxSQL = this.Bodies.rectangle(650, 50, 100*2, 100*2, {
+    let boxSQL = this.Bodies.rectangle(650, 50, boxWidth, boxWidth, {
       label: 'mySQL',
       render: {
         sprite: {
           texture: 'http://fixstream.com/wp-content/uploads/2015/08/mysql-logo-square.jpg',
-          xScale: .25*2,
-          yScale: .25*2
+          xScale: boxWidth/400,
+          yScale: boxWidth/400
         }
       }
     });
-    let boxReact = this.Bodies.rectangle(width*.7, 10, 100*2, 100*2, {
+    let boxReact = this.Bodies.rectangle(width*.7, 10, boxWidth, boxWidth, {
       angle: 3,
       label: 'React',
       render: {
         sprite: {
           texture: 'https://cdn.worldvectorlogo.com/logos/react-1.svg',
-          xScale: 0.02763194252*2,
-          yScale: 0.02763194252*2
+          xScale: boxWidth/3618.59,
+          yScale: boxWidth/3618.59
         }
       }
     });
-    let boxAngular = this.Bodies.rectangle(width*.8, 25, 100*2, 100*2, {
+    let boxAngular = this.Bodies.rectangle(width*.8, 25, boxWidth, boxWidth, {
       label: 'Angular',
       angle:2,
       render: {
         sprite: {
           texture: 'https://juststickers.in/wp-content/uploads/2013/06/AngularJS-Square1.jpg',
-          xScale: 0.189393939*2,
-          yScale: 0.189393939*2
+          xScale: boxWidth/528,
+          yScale: boxWidth/528
         }
       }
     }) 
-    let boxMongo = this.Bodies.rectangle(300, 30, 100*2, 100*2, {
+    let boxMongo = this.Bodies.rectangle(300, 30, boxWidth, boxWidth, {
       label: 'MongoDB',
       angle: 1.5,
       render: {
         sprite: {
           texture: 'http://www.knhopkins.com/assets/MongoDB.png',
-          xScale: 0.408163265*2,
-          yScale: 0.408163265*2
+          xScale: boxWidth/245,
+          yScale: boxWidth/245
         }
       }
     });
-    let boxJQuery = this.Bodies.rectangle(300, 30, 100*2, 100*2, {
+    let boxJQuery = this.Bodies.rectangle(300, 30, boxWidth, boxWidth, {
       label: 'jQuery',
       angle: 5,
       render: {
         sprite: {
           texture: 'https://www.seeklogo.net/wp-content/uploads/2014/10/jquery-logo-vector-download.jpg',
-          xScale: 0.1953125*2,
-          yScale: 0.1953125*2
+          xScale: boxWidth/512,
+          yScale: boxWidth/512
         }
       }
     });
+    let boxSublime = this.Bodies.rectangle(300, 30, boxWidth, boxWidth, {
+      label: 'jQuery',
+      angle: 5,
+      render: {
+        sprite: {
+          texture: 'https://upload.wikimedia.org/wikipedia/en/d/d2/Sublime_Text_3_logo.png',
+          xScale: boxWidth/256,
+          yScale: boxWidth/256
+        }
+      }
+    });
+
     let mouse = this.Mouse.create(render.canvas)
     this.MouseConstraint.update = (mouseConstraint, bodies) => {
       let mouse = mouseConstraint.mouse
@@ -227,7 +248,7 @@ class App extends React.Component {
       });
 
 
-    this.World.add(this.engine.world, [mouseConstraint, circleName, boxName, boxHTML, boxJS, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall, ceiling]);
+    this.World.add(this.engine.world, [mouseConstraint, circleName, boxName, boxHTML, boxJS, boxSublime, circleGit, boxSQL, boxReact, boxAngular, boxMongo, boxJQuery, ground, leftWall, rightWall, ceiling]);
     // World.add(engine.world, mouse)
     // render.mouse = mouse
     // this.Events.on(mouseConstraint, "mousedown", (e) => {
