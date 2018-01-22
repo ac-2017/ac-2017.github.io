@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Modal from 'react-modal';
 // import AnyComponent from './components/filename.jsx'
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -41,11 +40,20 @@ class App extends React.Component {
     this.mouse = null;
     this.mouseConstraint = null;
   }
-
   componentDidMount() {
     this.createWorld()
     $(window).resize(() => {
       this.handleReload()
+    })
+    $('canvas').bind('mousewheel', (e)=>{
+      if (e.originalEvent.wheelDelta > 0) {
+              
+      } else {
+        this.handleBulletTime()
+      }
+    })
+    $('canvas').click(() => {
+      console.log('asd')
     })
   }
   handleClick(box) {
@@ -178,29 +186,26 @@ class App extends React.Component {
     this.addBlocks()
   }
   addBlocks() {
-
     let width = $(window).width();
     let height = $(window).height();
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
     let vmin = Math.min(width, height)
     let boxWidth = vmin*.175
-
     this.renderr.options.width = width
     this.renderr.options.height= height
     this.renderr.canvas.width=width
     this.renderr.canvas.height = height
-
-    let ground = this.Bodies.rectangle(width/2, height+5, width, 5, {
+    let ground = this.Bodies.rectangle(width/2, height+250, width, 500, {
       isStatic: true
     })
-    let leftWall = this.Bodies.rectangle(-25, height/2, 50, height*10, {
+    let leftWall = this.Bodies.rectangle(-250, height/2, 500, height*10, {
       isStatic: true
     })
-    let rightWall = this.Bodies.rectangle(width+25, height/2, 50, height*10, {
+    let rightWall = this.Bodies.rectangle(width+250, height/2, 500, height*10, {
       isStatic: true
     })
-    let ceiling = this.Bodies.rectangle(width/2, -height/2, width*2, 5, {
+    let ceiling = this.Bodies.rectangle(width/2, -450, width*2, 500, {
       isStatic: true
     })
     let boxName = this.Bodies.rectangle(width/2, height*.4, nameWidth*1.3, nameHeight*.35, {
@@ -209,76 +214,77 @@ class App extends React.Component {
         fillStyle: 'transparent'
       }
     })
-    let circleName = this.Bodies.circle(width/2, height*.45, nameWidth/2, {
+    let circleName = this.Bodies.circle(width/2, height*.45, nameWidth/1.75, {
       isStatic: true,
       render: {
         fillStyle: 'transparent'
       }
     })
-    let boxJS = this.Bodies.rectangle(width/2, -110, boxWidth, boxWidth, {
+    let boxJS = this.Bodies.rectangle(width/2, -120, boxWidth, boxWidth, {
       label: 'JavaScript',
-      angle: Math.floor(Math.random() * Math.floor(5)),
+      angle: 1,
       isStatic: true,
       render: {
         sprite: {
-          texture: 'javascript720.png',
+          texture: 'icons/javascript720.png',
           xScale: boxWidth/720,
           yScale: boxWidth/720
         }
       }
     });
-    let boxHTML = this.Bodies.rectangle(width/2.5, -110, boxWidth, boxWidth, {
+    let boxHTML = this.Bodies.rectangle(width/2.5, -120, boxWidth, boxWidth, {
       label: 'HTML',
       angle: 2,
       isStatic: true,
       render: {
         sprite: {
-          texture: 'html300.png',
+          texture: 'icons/html300.png',
           xScale: boxWidth/300,
           yScale: boxWidth/300
         }
       }
     });
-    let circleGit = this.Bodies.circle(100, -100, boxWidth/2, {
+    let circleGit = this.Bodies.circle(150, -120, boxWidth*.75, {
       label: 'Github',
       isStatic: true,
       render: {
         sprite: {
-          texture: 'github.svg',
-          xScale: boxWidth/438.549,
-          yScale: boxWidth/438.549
+          texture: 'icons/github.svg',
+          xScale: boxWidth/438.549/.70,
+          yScale: boxWidth/438.549/.70
         }
       }
     })
-    let circleEmail = this.Bodies.circle(200, -100, boxWidth/2, {
+    let circleEmail = this.Bodies.circle(150, -400, boxWidth*.75, {
       label: 'Email',
       isStatic: true,
       render: {
         sprite: {
-          texture: 'email.png',
-          xScale: boxWidth/2400,
-          yScale: boxWidth/2400
+          texture: 'icons/email.png',
+          xScale: boxWidth/2400/.70,
+          yScale: boxWidth/2400/.70
         }
       }
     })
-    let boxSQL = this.Bodies.rectangle(width/2, -110, boxWidth, boxWidth, {
+    let boxSQL = this.Bodies.rectangle(width/2, -120, boxWidth, boxWidth, {
       label: 'mySQL',
+      angle: 7,
       isStatic: true,
       render: {
         sprite: {
-          texture: 'mysql.jpg',
+          texture: 'icons/mysql.jpg',
           xScale: boxWidth/400,
           yScale: boxWidth/400
         }
       }
     });
-    let boxReact = this.Bodies.rectangle(width*.6, -110, boxWidth, boxWidth, {
+    let boxReact = this.Bodies.rectangle(width*.6, -120, boxWidth, boxWidth, {
       angle: 3,
       label: 'React',
       isStatic: true,
       render: {
         sprite: {
-          texture: 'react.svg',
+          texture: 'icons/react.svg',
           xScale: boxWidth/3618.59,
           yScale: boxWidth/3618.59
         }
@@ -290,43 +296,43 @@ class App extends React.Component {
       angle:2,
       render: {
         sprite: {
-          texture: 'angular.jpg',
+          texture: 'icons/angular.jpg',
           xScale: boxWidth/225,
           yScale: boxWidth/225
         }
       }
     }) 
-    let boxMongo = this.Bodies.rectangle(width/1.3, -110, boxWidth, boxWidth, {
+    let boxMongo = this.Bodies.rectangle(width/1.3, -120, boxWidth, boxWidth, {
       label: 'MongoDB',
       angle: 1.5,
       isStatic: true,
       render: {
         sprite: {
-          texture: 'MongoDB.png',
+          texture: 'icons/MongoDB.png',
           xScale: boxWidth/245,
           yScale: boxWidth/245
         }
       }
     });
-    let boxJQuery = this.Bodies.rectangle(width/3, -110, boxWidth, boxWidth, {
+    let boxJQuery = this.Bodies.rectangle(width/3, -120, boxWidth, boxWidth, {
       label: 'jQuery',
       angle: 5,
       isStatic: true,
       render: {
         sprite: {
-          texture: 'jquery.jpg',
+          texture: 'icons/jquery.jpg',
           xScale: boxWidth/512,
           yScale: boxWidth/512
         }
       }
     });
-    let boxSublime = this.Bodies.rectangle(width/1.2, -110, boxWidth, boxWidth, {
+    let boxSublime = this.Bodies.rectangle(width/1.2, -120, boxWidth, boxWidth, {
       label: 'Sublime Text',
       angle: 5,
       isStatic: true,
       render: {
         sprite: {
-          texture: 'sublime.png',
+          texture: 'icons/sublime.png',
           xScale: boxWidth/256,
           yScale: boxWidth/256
         }
@@ -357,13 +363,25 @@ class App extends React.Component {
   render () {
     return (<div>
       <Modal isOpen={this.state.showModal} ariaHideApp={false} style={{overlay: {animation: 'fadein .25s'}, content: {animation: 'fadein .4s', position:'absolute', textAlign: 'center'}}}>
-      <div style={{backgroundColor: '#eee', height: '90%', fontSize: '7vmin', overflowY:'scroll'}}>
-      <p>{'Email me: aaron.111317@gmail.com'}</p>
+      <div style={{backgroundColor: '#eee', height: '85%', fontSize: '7vmin', overflowY:'scroll'}}>
+      <p><br/>{'Email me: aaron.111317@gmail.com'}</p><hr/>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies non arcu non dignissim. Aenean porta eu felis at tempus. Donec purus sapien, ullamcorper id libero quis, venenatis imperdiet lectus. Pellentesque erat nisi, semper eu fringilla eget, sollicitudin id ante. Ut efficitur vulputate ligula sit amet dapibus. In egestas augue enim. Sed a tellus est.
+
+Duis sollicitudin neque nec dignissim eleifend. Ut non urna at erat blandit pharetra. Aliquam mi felis, elementum eu mi nec, cursus condimentum velit. Etiam sodales orci vel nisl tempus, vel pretium odio luctus. Vivamus consequat libero velit, ut consectetur velit convallis sit amet. Sed consectetur, erat a finibus tempor, dolor velit auctor nisl, eget rhoncus neque felis et lacus. Vivamus facilisis, nisl porta semper facilisis, mi metus imperdiet lorem, vitae molestie ante leo accumsan ligula. In hac habitasse platea dictumst. Nam justo leo, vehicula vitae iaculis id, porta sed diam.
+
+Cras consectetur fermentum enim, nec lacinia nunc volutpat vel. Sed in massa vel leo dictum consequat. Sed interdum faucibus dapibus. Nullam pharetra justo non dapibus ultricies. Suspendisse luctus facilisis eros, ac fringilla magna pharetra eu. Aliquam maximus ligula mollis lorem blandit, id consequat lectus facilisis. Proin ac turpis enim. Nullam eget massa condimentum, venenatis diam at, molestie mauris.
+
+In at malesuada neque, nec feugiat est. Morbi congue sed est rhoncus condimentum. Integer nec vehicula metus. Phasellus sed euismod nibh. Pellentesque in eleifend arcu. Sed rhoncus felis turpis, ut bibendum urna scelerisque vitae. Sed finibus mauris mauris, in molestie felis semper non. Mauris non ex nisi. Cras elementum sapien non pharetra mattis. Etiam convallis ultricies auctor. Etiam faucibus a arcu vitae pellentesque. Praesent fermentum, elit a egestas molestie, nisl purus viverra neque, eget egestas purus erat vel erat.
+
+Aliquam ipsum tellus, euismod ut sodales ac, placerat eget dui. Praesent convallis odio ac neque dignissim, at finibus dolor suscipit. Sed venenatis odio nec rutrum malesuada. Suspendisse quis metus at lorem feugiat mattis in vel diam. Suspendisse viverra, nunc nec tempus tempor, tortor neque vulputate ante, at venenatis eros nulla ac nunc. Ut libero enim, tempor et ultrices sit amet, ultricies ut metus. Phasellus pretium lacus a lacus fermentum, eget aliquam nunc accumsan. In nec dignissim justo. Quisque congue massa nisl, a ultricies nibh luctus at. Donec a augue dolor. Curabitur sodales ante ut urna molestie dapibus. Proin dolor elit, lacinia quis magna at, egestas ullamcorper nibh. Cras semper, sem sit amet viverra fermentum, sem velit sagittis felis, sed dapibus ipsum ligula eu magna. Suspendisse in ipsum ac ante egestas eleifend. Pellentesque posuere nec elit nec elementum.
+      </p>
       </div>
+      <br/>
       <button className="closeModal" onClick={() => {this.handleModal()}}>Close</button>
       </Modal>
-      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1><h1 className="tutorial">Click or drag an icon!</h1><button className="bullet" onClick={() => {this.handleBulletTime()}}>🌪️</button><button className="reload" onClick={() => {this.handleReload()}}>🔄</button><button className="rain" onClick={() => {this.toggleRain()}}>☔</button></div>)
+      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1></div>)
   }
 }
-
 ReactDOM.render(<App />, document.getElementById('app'));
+//<button className="bullet" onClick={() => {this.handleBulletTime()}}>🌪️</button><button className="reload" onClick={() => {this.handleReload()}}>🔄</button><button className="rain" onClick={() => {this.toggleRain()}}>☔</button>
+//<h1 className="tutorial">Click or drag an icon!</h1>

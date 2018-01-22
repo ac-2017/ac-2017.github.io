@@ -44,7 +44,7 @@ p.webdev{
   transform: translateX(calc(-50% + 22vmin)) translateY(calc(-50% + .5vmin));
   width: 10vmin;
   font-size: 4vmin;
-  font-family: 'Quicksand', sans-serif;
+  font-family: sans-serif;
 }
 p.webdev2{
   color: #1574cd;
@@ -56,7 +56,7 @@ p.webdev2{
   transform: translateX(calc(-50% + 22vmin)) translateY(calc(-50% + .5vmin));
   width: 10vmin;
   font-size: 4vmin;
-  font-family: 'Quicksand', sans-serif;
+  font-family: sans-serif;
   background-color:rgba(21, 116, 205, 0.15);
   border-radius:1vmin;
 
@@ -76,6 +76,8 @@ p.webdev:hover {
     -webkit-mask-position: -50%;
   }
 }
+
+/*
 button.bullet{
   position:absolute;
   top:60%;
@@ -108,7 +110,7 @@ button.reload {
   border-radius: 2px;
   padding: 2px 2px;
   font-size: 5vmin;
-  /*transition: background .5s linear;*/
+  /*transition: background .5s linear;
 }
 button.rain {
   position:absolute;
@@ -125,8 +127,8 @@ button.rain {
   padding: 2px 5px;
   border-radius: 2px;
   font-size: 5vmin;
-  /*transition: background .5s linear;*/
-}
+  /*transition: background .5s linear;
+}*/
 button.closeModal{
   background: rgba(21, 116, 205, 0.9);
   color: #fff;
@@ -151,6 +153,7 @@ button:active{
   background: rgba(21, 116, 205, 0.9);
   transition: background .1s linear;
 }
+
 
 @-webkit-keyframes fadein {
     from { opacity: 0; }
