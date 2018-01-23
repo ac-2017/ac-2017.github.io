@@ -52,9 +52,6 @@ class App extends React.Component {
         this.handleBulletTime()
       }
     })
-    $('canvas').click(() => {
-      console.log('asd')
-    })
   }
   handleClick(box) {
     if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
@@ -196,16 +193,16 @@ class App extends React.Component {
     this.renderr.options.height= height
     this.renderr.canvas.width=width
     this.renderr.canvas.height = height
-    let ground = this.Bodies.rectangle(width/2, height+250, width, 500, {
+    let ground = this.Bodies.rectangle(width/2, height+125, width, 250, {
       isStatic: true
     })
-    let leftWall = this.Bodies.rectangle(-250, height/2, 500, height*10, {
+    let leftWall = this.Bodies.rectangle(-125, height/2, 250, height*10, {
       isStatic: true
     })
-    let rightWall = this.Bodies.rectangle(width+250, height/2, 500, height*10, {
+    let rightWall = this.Bodies.rectangle(width+125, height/2, 250, height*10, {
       isStatic: true
     })
-    let ceiling = this.Bodies.rectangle(width/2, -450, width*2, 500, {
+    let ceiling = this.Bodies.rectangle(width/2, -400, width*2, 250, {
       isStatic: true
     })
     let boxName = this.Bodies.rectangle(width/2, height*.4, nameWidth*1.3, nameHeight*.35, {
@@ -347,7 +344,6 @@ class App extends React.Component {
     },2000)
     setTimeout(() => {
       this.Body.setStatic(circleGit, false)
-      this.Body.setStatic(circleEmail, false)
     },2000)
     setTimeout(() => {
       this.Body.setStatic(boxReact, false)
@@ -358,10 +354,11 @@ class App extends React.Component {
       this.Body.setStatic(boxMongo, false)
       this.Body.setStatic(boxSQL, false)
       this.Body.setStatic(boxSublime, false)
+      this.Body.setStatic(circleEmail, false)
     },3400)
   }
   render () {
-    return (<div>
+    return (<div style={{animation: 'fadein 1s'}}>
       <Modal isOpen={this.state.showModal} ariaHideApp={false} style={{overlay: {animation: 'fadein .25s'}, content: {animation: 'fadein .4s', position:'absolute', textAlign: 'center'}}}>
       <div style={{backgroundColor: '#eee', height: '85%', fontSize: '7vmin', overflowY:'scroll'}}>
       <p><br/>{'Email me: aaron.111317@gmail.com'}</p><hr/>
