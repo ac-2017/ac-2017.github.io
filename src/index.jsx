@@ -15,7 +15,10 @@ class App extends React.Component {
       endClickPos: {},
       showModal: false,
       box: '',
-      raining: false
+      raining: false,
+      alpha: 0,
+      beta: 0,
+      gamma: 0
     }
     this.createWorld = this.createWorld.bind(this)
     this.Engine = Matter.Engine
@@ -42,12 +45,17 @@ class App extends React.Component {
     this.renderr = null;
     this.mouse = null;
     this.mouseConstraint = null;
+    this.windowWidth = null;
   }
   componentDidMount() {
     this.createWorld()
-    $(window).resize(() => {
-      this.handleReload()
-    })
+    this.windowWidth = $(window).width();
+      $(window).resize(() => {
+        if ($(window).width() !== this.windowWidth) {
+          this.windowWidth = $(window).width()
+          this.handleReload()
+        }
+      })     
     $(window).bind('mousewheel', (e)=>{
       if (e.originalEvent.wheelDelta > 0 && $(window).scrollTop() === 0) {
         this.handleBulletTime()
@@ -55,19 +63,99 @@ class App extends React.Component {
         // this.handleBulletTime()
       }
     })
+    var swipe, start
+    $('body').on('touchstart', (e) => {
+      swipe = e.originalEvent.touches
+      start = swipe[0].pageY
+    })
+    .on('touchmove', (e) =>{
+      var contact = e.originalEvent.touches
+      var end = contact[0].pageY
+      var distance = end-start
+      if ($(window).scrollTop() === 0 && distance >5) {
+        this.handleBulletTime()
+      }
+    })
+    if($(window).DeviceOrientationEvent){
+      $(window).addEventListener("deviceorientation", this.rotation, false);
+    } else {
+      console.log("DeviceOrientationEvent is not supported");
+    }
+  }
+
+  rotation(event) {
+    console.log("Magnetometer: "
+    + event.alpha + ", "
+    + event.beta + ", "
+    + event.gamma
+  );
+    this.setState(prevState => ({
+      alpha: event.alpha,
+      beta: event.beta,
+      gamma: event.gamma
+    }))
   }
   handleClick(box) {
-    // if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
-    //   if (box !== 'Rectangle Body' && box !== 'Circle Body') {
-    //     if (box === 'Email') {
-    //       this.handleModal(box)
-    //     } 
-    //     if (box === 'Github') {
-    //       window.open("https://github.com/ac-2017", "_blank")
-    //     }
-    //   } 
-    // }
-    console.log(box)
+    // console.log(box)
+    if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
+      if (box.label !== 'Rectangle Body' && box.label !== 'Circle Body') {
+        if (box.label === 'Email') {
+          this.handleModal(box)
+        } else if (box.label === 'Github') {
+          window.open("https://github.com/ac-2017", "_blank")
+        } else if (!box.label.includes('shattered')) {
+          let width = $('body').width();
+          let height = $('body').height();
+          let boxWidth = Math.min(width,height)*.175
+          let newBox = this.Bodies.rectangle(box.position.x+boxWidth/2, box.position.y+boxWidth/2, boxWidth/2, boxWidth/2, {
+            label: box.label + 'shattered',
+            angle: 1,
+            render: {
+              sprite: {
+                texture: box.render.sprite.texture,
+                xScale: box.render.sprite.xScale/1.5,
+                yScale: box.render.sprite.yScale/1.5
+              }
+            }
+          })
+          let newBox2 = this.Bodies.rectangle(box.position.x+boxWidth/2, box.position.y-boxWidth/2, boxWidth/2, boxWidth/2, {
+            label: box.label + 'shattered',
+            angle: 1,
+            render: {
+              sprite: {
+                texture: box.render.sprite.texture,
+                xScale: box.render.sprite.xScale/1.5,
+                yScale: box.render.sprite.yScale/1.5
+              }
+            }
+          })
+          let newBox3 = this.Bodies.rectangle(box.position.x-boxWidth/2, box.position.y+boxWidth/2, boxWidth/2, boxWidth/2, {
+            label: box.label + 'shattered',
+            angle: 1,
+            render: {
+              sprite: {
+                texture: box.render.sprite.texture,
+                xScale: box.render.sprite.xScale/1.5,
+                yScale: box.render.sprite.yScale/1.5
+              }
+            }
+          })
+          let newBox4 = this.Bodies.rectangle(box.position.x-boxWidth/2, box.position.y-boxWidth/2, boxWidth/2, boxWidth/2, {
+            label: box.label + 'shattered',
+            angle: 1,
+            render: {
+              sprite: {
+                texture: box.render.sprite.texture,
+                xScale: box.render.sprite.xScale/1.5,
+                yScale: box.render.sprite.yScale/1.5
+              }
+            }
+          })
+          this.Composite.remove(this.engine.world, box)
+          this.World.add(this.engine.world, [newBox, newBox2, newBox3, newBox4])
+        }
+      } 
+    }
   }
   handleModal(box) {
     this.setState({
@@ -151,7 +239,7 @@ class App extends React.Component {
     let height = $('body').height();
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
-    console.log(height)
+    // console.log(height)
     let vmin = Math.min(width, height)
     let boxWidth = vmin*.175
     this.renderr = this.Render.create({
@@ -167,6 +255,9 @@ class App extends React.Component {
     this.mouse = this.Mouse.create(this.renderr.canvas)
     this.mouse.element.removeEventListener("mousewheel", this.mouse.mousewheel);
     this.mouse.element.removeEventListener("DOMMouseScroll", this.mouse.mousewheel);
+    this.mouse.element.removeEventListener("touchmove", this.mouse.mousemove);
+    this.mouse.element.removeEventListener('touchstart', this.mouse.mousedown);
+    this.mouse.element.removeEventListener('touchend', this.mouse.mouseup);
     this.mouseConstraint = this.MouseConstraint.create(this.engine, {
         mouse: this.mouse,
           constraint: {
@@ -185,7 +276,7 @@ class App extends React.Component {
       this.setState({
         endClickPos: {x: e.mouse.absolute.x, y: e.mouse.absolute.y}
       })
-      this.handleClick(e)
+      this.handleClick(e.body)
     })
     this.Engine.run(this.engine);
     this.Render.run(this.renderr);
@@ -198,6 +289,11 @@ class App extends React.Component {
     let nameHeight = $('.name').height();
     let vmin = Math.min(width, height)
     let boxWidth = vmin*.175
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    // is mobile..
+      boxWidth *=1.25;
+      var isMobile = true
+    }
     this.renderr.options.width = width
     this.renderr.options.height= height
     this.renderr.canvas.width=width
@@ -352,7 +448,7 @@ class App extends React.Component {
       this.Body.setStatic(boxHTML, false)
     },2000)
     setTimeout(() => {
-      this.Body.setStatic(circleGit, false)
+      if (!isMobile) this.Body.setStatic(circleGit, false)
     },2000)
     setTimeout(() => {
       this.Body.setStatic(boxReact, false)
@@ -363,7 +459,7 @@ class App extends React.Component {
       this.Body.setStatic(boxMongo, false)
       this.Body.setStatic(boxSQL, false)
       this.Body.setStatic(boxSublime, false)
-      this.Body.setStatic(circleEmail, false)
+      if (!isMobile) this.Body.setStatic(circleEmail, false)
     },3400)
   }
   render () {
@@ -371,6 +467,7 @@ class App extends React.Component {
       <InfoModal showModal={this.state.showModal} handleModal={this.handleModal}/>
       <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1>
       </div>
+      <p style={{color: '#fff'}}>{this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>
       <div id="MatterJS"></div>
       <PortfolioContent/>
       </div>
