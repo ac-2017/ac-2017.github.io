@@ -465,7 +465,7 @@ class App extends React.Component {
       <InfoModal showModal={this.state.showModal} handleModal={this.handleModal}/>
       <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1>
       </div>
-      <p style={{color: '#fff'}}>{this.state.rotationSupported + ' alpha ' + this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>
+      {/*<p style={{color: '#fff'}}>{this.state.rotationSupported + ' alpha ' + this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>*/}
       <div id="MatterJS"></div>
       <PortfolioContent/>
       </div>
