@@ -41,7 +41,7 @@ class App extends React.Component {
     this.handleReload = this.handleReload.bind(this)
     this.heavyRain = this.heavyRain.bind(this)
     this.toggleRain = this.toggleRain.bind(this)
-
+    this.rotation = this.rotation.bind(this)
     this.renderr = null;
     this.mouse = null;
     this.mouseConstraint = null;
