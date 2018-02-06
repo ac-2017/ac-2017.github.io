@@ -18,7 +18,8 @@ class App extends React.Component {
       raining: false,
       alpha: 0,
       beta: 0,
-      gamma: 0
+      gamma: 0,
+      rotationSupported: false
     }
     this.createWorld = this.createWorld.bind(this)
     this.Engine = Matter.Engine
@@ -76,8 +77,9 @@ class App extends React.Component {
         this.handleBulletTime()
       }
     })
-    if($(window).DeviceOrientationEvent){
-      $(window).addEventListener("deviceorientation", this.rotation, false);
+    if(window.DeviceOrientationEvent){
+      window.addEventListener("deviceorientation", this.rotation, false);
+      this.setState({rotationSupported: true})
     } else {
       console.log("DeviceOrientationEvent is not supported");
     }
@@ -467,7 +469,7 @@ class App extends React.Component {
       <InfoModal showModal={this.state.showModal} handleModal={this.handleModal}/>
       <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1>
       </div>
-      <p style={{color: '#fff'}}>{this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>
+      <p style={{color: '#fff'}}>{this.state.rotationSupported + ' alpha ' + this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>
       <div id="MatterJS"></div>
       <PortfolioContent/>
       </div>
