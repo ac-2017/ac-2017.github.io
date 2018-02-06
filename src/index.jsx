@@ -84,18 +84,14 @@ class App extends React.Component {
       console.log("DeviceOrientationEvent is not supported");
     }
   }
-
   rotation(event) {
-    console.log("Magnetometer: "
-    + event.alpha + ", "
-    + event.beta + ", "
-    + event.gamma
-  );
     this.setState(prevState => ({
       alpha: event.alpha,
       beta: event.beta,
       gamma: event.gamma
     }))
+    this.engine.world.gravity.y = event.beta * .02
+    this.engine.world.gravity.x = event.gamma * .02
   }
   handleClick(box) {
     // console.log(box)
