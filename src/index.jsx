@@ -90,8 +90,8 @@ class App extends React.Component {
       beta: event.beta,
       gamma: event.gamma
     }))
-    this.engine.world.gravity.y = event.beta * .02
-    this.engine.world.gravity.x = event.gamma * .02
+    this.engine.world.gravity.y = event.beta * .14
+    this.engine.world.gravity.x = event.gamma * .14
   }
   handleClick(box) {
     // console.log(box)
