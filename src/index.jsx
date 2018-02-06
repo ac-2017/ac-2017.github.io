@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import Modal from 'react-modal';
+
+// import Modal from 'react-modal';
+import InfoModal from './components/InfoModal.jsx'
+import PortfolioContent from './components/PortfolioContent.jsx'
 // import AnyComponent from './components/filename.jsx'
 class App extends React.Component {
   constructor(props) {
@@ -45,25 +48,26 @@ class App extends React.Component {
     $(window).resize(() => {
       this.handleReload()
     })
-    $('canvas').bind('mousewheel', (e)=>{
-      if (e.originalEvent.wheelDelta > 0) {
-              
-      } else {
+    $(window).bind('mousewheel', (e)=>{
+      if (e.originalEvent.wheelDelta > 0 && $(window).scrollTop() === 0) {
         this.handleBulletTime()
+      } else {
+        // this.handleBulletTime()
       }
     })
   }
   handleClick(box) {
-    if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
-      if (box !== 'Rectangle Body' && box !== 'Circle Body') {
-        if (box === 'Email') {
-          this.handleModal(box)
-        } 
-        if (box === 'Github') {
-          window.open("https://github.com/ac-2017", "_blank")
-        }
-      } 
-    }
+    // if (this.state.startClickPos.x === this.state.endClickPos.x && this.state.startClickPos.y === this.state.endClickPos.y) {
+    //   if (box !== 'Rectangle Body' && box !== 'Circle Body') {
+    //     if (box === 'Email') {
+    //       this.handleModal(box)
+    //     } 
+    //     if (box === 'Github') {
+    //       window.open("https://github.com/ac-2017", "_blank")
+    //     }
+    //   } 
+    // }
+    console.log(box)
   }
   handleModal(box) {
     this.setState({
@@ -83,8 +87,9 @@ class App extends React.Component {
     this.World.clear(this.engine.world, false)
     this.addBlocks()
   }
+  
   toggleRain() {
-    console.log('toggle')
+    // console.log('toggle')
     this.setState({
       raining: !this.state.raining
     })
@@ -135,29 +140,33 @@ class App extends React.Component {
     }
   }
   createWorld() {
-    $("canvas").remove();
+    // $("canvas").remove();
+    let canvas = $('#MatterJs')
     this.engine.events = {};
     this.World.clear(this.engine.world);
     this.Engine.clear(this.engine);
     this.engine = this.Engine.create()
     this.engine.world.gravity.scale *=7
-    let width = $(window).width();
-    let height = $(window).height();
+    let width = $('body').width();
+    let height = $('body').height();
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
+    console.log(height)
     let vmin = Math.min(width, height)
     let boxWidth = vmin*.175
     this.renderr = this.Render.create({
-        element: document.body,
-        engine: this.engine,
+        element: document.querySelector('#MatterJS'),
         options: {
           wireframes: false,
           background: 'transparent',
           height: height,
-          width: width-1
-        }
+          width: width
+        },
+        engine: this.engine
     });
     this.mouse = this.Mouse.create(this.renderr.canvas)
+    this.mouse.element.removeEventListener("mousewheel", this.mouse.mousewheel);
+    this.mouse.element.removeEventListener("DOMMouseScroll", this.mouse.mousewheel);
     this.mouseConstraint = this.MouseConstraint.create(this.engine, {
         mouse: this.mouse,
           constraint: {
@@ -176,15 +185,15 @@ class App extends React.Component {
       this.setState({
         endClickPos: {x: e.mouse.absolute.x, y: e.mouse.absolute.y}
       })
-      this.handleClick(e.body.label)
+      this.handleClick(e)
     })
     this.Engine.run(this.engine);
     this.Render.run(this.renderr);
     this.addBlocks()
   }
   addBlocks() {
-    let width = $(window).width();
-    let height = $(window).height();
+    let width = $('#MatterJS').width();
+    let height = $('#MatterJS').height();
     let nameWidth = $('.name').width();
     let nameHeight = $('.name').height();
     let vmin = Math.min(width, height)
@@ -358,25 +367,14 @@ class App extends React.Component {
     },3400)
   }
   render () {
-    return (<div style={{animation: 'fadein 1s'}}>
-      <Modal isOpen={this.state.showModal} ariaHideApp={false} style={{overlay: {animation: 'fadein .25s'}, content: {animation: 'fadein .4s', position:'absolute', textAlign: 'center'}}}>
-      <div style={{backgroundColor: '#eee', height: '85%', fontSize: '7vmin', overflowY:'scroll'}}>
-      <p><br/>{'Email me: aaron.111317@gmail.com'}</p><hr/>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies non arcu non dignissim. Aenean porta eu felis at tempus. Donec purus sapien, ullamcorper id libero quis, venenatis imperdiet lectus. Pellentesque erat nisi, semper eu fringilla eget, sollicitudin id ante. Ut efficitur vulputate ligula sit amet dapibus. In egestas augue enim. Sed a tellus est.
-
-Duis sollicitudin neque nec dignissim eleifend. Ut non urna at erat blandit pharetra. Aliquam mi felis, elementum eu mi nec, cursus condimentum velit. Etiam sodales orci vel nisl tempus, vel pretium odio luctus. Vivamus consequat libero velit, ut consectetur velit convallis sit amet. Sed consectetur, erat a finibus tempor, dolor velit auctor nisl, eget rhoncus neque felis et lacus. Vivamus facilisis, nisl porta semper facilisis, mi metus imperdiet lorem, vitae molestie ante leo accumsan ligula. In hac habitasse platea dictumst. Nam justo leo, vehicula vitae iaculis id, porta sed diam.
-
-Cras consectetur fermentum enim, nec lacinia nunc volutpat vel. Sed in massa vel leo dictum consequat. Sed interdum faucibus dapibus. Nullam pharetra justo non dapibus ultricies. Suspendisse luctus facilisis eros, ac fringilla magna pharetra eu. Aliquam maximus ligula mollis lorem blandit, id consequat lectus facilisis. Proin ac turpis enim. Nullam eget massa condimentum, venenatis diam at, molestie mauris.
-
-In at malesuada neque, nec feugiat est. Morbi congue sed est rhoncus condimentum. Integer nec vehicula metus. Phasellus sed euismod nibh. Pellentesque in eleifend arcu. Sed rhoncus felis turpis, ut bibendum urna scelerisque vitae. Sed finibus mauris mauris, in molestie felis semper non. Mauris non ex nisi. Cras elementum sapien non pharetra mattis. Etiam convallis ultricies auctor. Etiam faucibus a arcu vitae pellentesque. Praesent fermentum, elit a egestas molestie, nisl purus viverra neque, eget egestas purus erat vel erat.
-
-Aliquam ipsum tellus, euismod ut sodales ac, placerat eget dui. Praesent convallis odio ac neque dignissim, at finibus dolor suscipit. Sed venenatis odio nec rutrum malesuada. Suspendisse quis metus at lorem feugiat mattis in vel diam. Suspendisse viverra, nunc nec tempus tempor, tortor neque vulputate ante, at venenatis eros nulla ac nunc. Ut libero enim, tempor et ultrices sit amet, ultricies ut metus. Phasellus pretium lacus a lacus fermentum, eget aliquam nunc accumsan. In nec dignissim justo. Quisque congue massa nisl, a ultricies nibh luctus at. Donec a augue dolor. Curabitur sodales ante ut urna molestie dapibus. Proin dolor elit, lacinia quis magna at, egestas ullamcorper nibh. Cras semper, sem sit amet viverra fermentum, sem velit sagittis felis, sed dapibus ipsum ligula eu magna. Suspendisse in ipsum ac ante egestas eleifend. Pellentesque posuere nec elit nec elementum.
-      </p>
+    return (<div style={{height: '100%'}}><div style={{animation: 'fadein 1s'}}>
+      <InfoModal showModal={this.state.showModal} handleModal={this.handleModal}/>
+      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1>
       </div>
-      <br/>
-      <button className="closeModal" onClick={() => {this.handleModal()}}>Close</button>
-      </Modal>
-      <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1></div>)
+      <div id="MatterJS"></div>
+      <PortfolioContent/>
+      </div>
+      )
   }
 }
 ReactDOM.render(<App />, document.getElementById('app'));
