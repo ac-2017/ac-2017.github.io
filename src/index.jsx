@@ -77,7 +77,7 @@ class App extends React.Component {
         this.handleBulletTime()
       }
     })
-    if($(window).DeviceOrientationEvent){
+    if(window.DeviceOrientationEvent && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       window.addEventListener("deviceorientation", this.rotation, false);
       this.setState({rotationSupported: true})
     } else {
@@ -85,11 +85,6 @@ class App extends React.Component {
     }
   }
   rotation(event) {
-    // this.setState(prevState => ({
-    //   alpha: event.alpha,
-    //   beta: event.beta,
-    //   gamma: event.gamma
-    // }))
     this.engine.world.gravity.scale = 0.001
     this.engine.world.gravity.y = event.beta * .14
     this.engine.world.gravity.x = event.gamma * .14
