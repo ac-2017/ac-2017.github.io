@@ -73,7 +73,7 @@ class App extends React.Component {
       var contact = e.originalEvent.touches
       var end = contact[0].pageY
       var distance = end-start
-      if ($(window).scrollTop() === 0 && distance >5) {
+      if ($(window).scrollTop() === 0 && distance > 5) {
         this.handleBulletTime()
       }
     })
@@ -83,6 +83,10 @@ class App extends React.Component {
     } else {
       console.log("DeviceOrientationEvent is not supported");
     }
+    $('.scroll-down').click (function() {
+      $('html, body').animate({scrollTop: $('.content').offset().top }, 'slow');
+      return false;
+    });
   }
   rotation(event) {
     this.engine.world.gravity.scale = 0.001
@@ -98,8 +102,8 @@ class App extends React.Component {
         } else if (box.label === 'Github') {
           window.open("https://github.com/ac-2017", "_blank")
         } else if (!box.label.includes('shattered')) {
-          let width = $('body').width();
-          let height = $('body').height();
+          let width = $('#MatterJS').width();
+          let height = $('#MatterJS').height();
           let boxWidth = Math.min(width,height)*.175
           let newBox = this.Bodies.rectangle(box.position.x+boxWidth/2, box.position.y+boxWidth/2, boxWidth/2, boxWidth/2, {
             label: box.label + 'shattered',
@@ -107,8 +111,8 @@ class App extends React.Component {
             render: {
               sprite: {
                 texture: box.render.sprite.texture,
-                xScale: box.render.sprite.xScale/1.5,
-                yScale: box.render.sprite.yScale/1.5
+                xScale: box.render.sprite.xScale/2,
+                yScale: box.render.sprite.yScale/2
               }
             }
           })
@@ -118,8 +122,8 @@ class App extends React.Component {
             render: {
               sprite: {
                 texture: box.render.sprite.texture,
-                xScale: box.render.sprite.xScale/1.5,
-                yScale: box.render.sprite.yScale/1.5
+                xScale: box.render.sprite.xScale/2,
+                yScale: box.render.sprite.yScale/2
               }
             }
           })
@@ -129,8 +133,8 @@ class App extends React.Component {
             render: {
               sprite: {
                 texture: box.render.sprite.texture,
-                xScale: box.render.sprite.xScale/1.5,
-                yScale: box.render.sprite.yScale/1.5
+                xScale: box.render.sprite.xScale/2,
+                yScale: box.render.sprite.yScale/2
               }
             }
           })
@@ -140,8 +144,8 @@ class App extends React.Component {
             render: {
               sprite: {
                 texture: box.render.sprite.texture,
-                xScale: box.render.sprite.xScale/1.5,
-                yScale: box.render.sprite.yScale/1.5
+                xScale: box.render.sprite.xScale/2,
+                yScale: box.render.sprite.yScale/2
               }
             }
           })
@@ -231,11 +235,6 @@ class App extends React.Component {
     this.engine.world.gravity.scale *=7
     let width = $('body').width();
     let height = $('body').height();
-    let nameWidth = $('.name').width();
-    let nameHeight = $('.name').height();
-    // console.log(height)
-    let vmin = Math.min(width, height)
-    let boxWidth = vmin*.175
     this.renderr = this.Render.create({
         element: document.querySelector('#MatterJS'),
         options: {
@@ -284,7 +283,6 @@ class App extends React.Component {
     let vmin = Math.min(width, height)
     let boxWidth = vmin*.175
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    // is mobile..
       boxWidth *=1.25;
       var isMobile = true
     }
@@ -316,7 +314,7 @@ class App extends React.Component {
         fillStyle: 'transparent'
       }
     })
-    let boxJS = this.Bodies.rectangle(width/2, -120, boxWidth, boxWidth, {
+    let boxJS = this.Bodies.rectangle(width/2, -boxWidth, boxWidth, boxWidth, {
       label: 'JavaScript',
       angle: 1,
       isStatic: true,
@@ -328,7 +326,7 @@ class App extends React.Component {
         }
       }
     });
-    let boxHTML = this.Bodies.rectangle(width/2.5, -120, boxWidth, boxWidth, {
+    let boxHTML = this.Bodies.rectangle(width/2.5, -boxWidth, boxWidth, boxWidth, {
       label: 'HTML',
       angle: 2,
       isStatic: true,
@@ -340,7 +338,7 @@ class App extends React.Component {
         }
       }
     });
-    let circleGit = this.Bodies.circle(150, -120, boxWidth*.75, {
+    let circleGit = this.Bodies.circle(150, -boxWidth, boxWidth*.75, {
       label: 'Github',
       isStatic: true,
       render: {
@@ -362,7 +360,7 @@ class App extends React.Component {
         }
       }
     })
-    let boxSQL = this.Bodies.rectangle(width/2, -120, boxWidth, boxWidth, {
+    let boxSQL = this.Bodies.rectangle(width/2, -boxWidth, boxWidth, boxWidth, {
       label: 'mySQL',
       angle: 7,
       isStatic: true,
@@ -374,7 +372,7 @@ class App extends React.Component {
         }
       }
     });
-    let boxReact = this.Bodies.rectangle(width*.6, -120, boxWidth, boxWidth, {
+    let boxReact = this.Bodies.rectangle(width*.6, -boxWidth, boxWidth, boxWidth, {
       angle: 3,
       label: 'React',
       isStatic: true,
@@ -398,7 +396,7 @@ class App extends React.Component {
         }
       }
     }) 
-    let boxMongo = this.Bodies.rectangle(width/1.3, -120, boxWidth, boxWidth, {
+    let boxMongo = this.Bodies.rectangle(width/1.3, -boxWidth, boxWidth, boxWidth, {
       label: 'MongoDB',
       angle: 1.5,
       isStatic: true,
@@ -410,7 +408,7 @@ class App extends React.Component {
         }
       }
     });
-    let boxJQuery = this.Bodies.rectangle(width/3, -120, boxWidth, boxWidth, {
+    let boxJQuery = this.Bodies.rectangle(width/3, -boxWidth, boxWidth, boxWidth, {
       label: 'jQuery',
       angle: 5,
       isStatic: true,
@@ -422,7 +420,7 @@ class App extends React.Component {
         }
       }
     });
-    let boxSublime = this.Bodies.rectangle(width/1.2, -120, boxWidth, boxWidth, {
+    let boxSublime = this.Bodies.rectangle(width/1.2, -boxWidth, boxWidth, boxWidth, {
       label: 'Sublime Text',
       angle: 5,
       isStatic: true,
@@ -460,6 +458,7 @@ class App extends React.Component {
     return (<div style={{height: '100%'}}><div style={{animation: 'fadein 1s'}}>
       <InfoModal showModal={this.state.showModal} handleModal={this.handleModal}/>
       <h1 className="name">Aaron<span></span><p className="webdev2">WEB DEV</p><p className="webdev">WEB DEV</p></h1>
+      <a href="#" className="scroll-down"><span></span></a>
       </div>
       {/*<p style={{color: '#fff'}}>{this.state.rotationSupported + ' alpha ' + this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>*/}
       <div id="MatterJS"></div>
