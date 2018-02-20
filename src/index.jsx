@@ -40,8 +40,6 @@ class App extends React.Component {
     this.handleModal = this.handleModal.bind(this)
     this.addBlocks = this.addBlocks.bind(this)
     this.handleReload = this.handleReload.bind(this)
-    this.heavyRain = this.heavyRain.bind(this)
-    this.toggleRain = this.toggleRain.bind(this)
     this.rotation = this.rotation.bind(this)
     this.renderr = null;
     this.mouse = null;
@@ -70,21 +68,19 @@ class App extends React.Component {
 
      $(window).scroll(function() {
        if ($('.one').isOnScreen() == true) {
-         // alert("removing orange");
-         // console.log('onscreen')
-         $('.one').removeClass("loading")   
+         $('.one').css('transform', 'translate(0%)')   
        }
        if ($('.two').isOnScreen() == true) {
          // alert("removing orange");
-         $('.two').removeClass('loading')   
+         $('.two').css('transform', 'translate(0%)')   
        }
        if ($('.three').isOnScreen() == true) {
          // alert("removing orange");
-         $('.three').removeClass('loading')   
+         $('.three').css('transform', 'translate(0%)')   
        }
        if ($('.four').isOnScreen() == true) {
          // alert("removing orange");
-         $('.four').removeClass('loading')   
+         $('.four').css('transform', 'translate(0%)')   
        }
       });  
 
@@ -126,7 +122,7 @@ class App extends React.Component {
       console.log("DeviceOrientationEvent is not supported");
     }
     $('.scroll-down').click (function() {
-      $('html, body').animate({scrollTop: $('.content').offset().top }, 'slow');
+      $('html, body').animate({scrollTop: $('.content').offset().top},1000);
       return false;
     });
   }
@@ -215,16 +211,6 @@ class App extends React.Component {
     this.World.clear(this.engine.world, false)
     this.addBlocks()
   }
-  
-  toggleRain() {
-    // console.log('toggle')
-    this.setState({
-      raining: !this.state.raining
-    })
-    setTimeout(() => {
-      this.heavyRain()
-    },200)
-  }
   bulletTime(engine) {
     var bodies = this.Composite.allBodies(engine.world);
     for (var i = 0; i < bodies.length; i++) {
@@ -248,24 +234,6 @@ class App extends React.Component {
         bulletTime: false
       })
     },2500)
-  }
-  heavyRain() {
-    let width = $(window).width()
-    let rainDrop = this.Bodies.circle( (Math.floor(Math.random() * Math.floor(width)) ), -1, 10, {
-      render: {
-        sprite: {
-          texture: 'https://www.shareicon.net/data/512x512/2015/10/07/113639_drop_512x512.png',
-          xScale: 10/512,
-          yScale: 10/512
-        }
-      }
-    })
-    this.World.add(this.engine.world, [rainDrop])
-    if (this.state.raining) {
-      setTimeout(() => {
-        this.heavyRain()
-      },100)
-    }
   }
   createWorld() {
     // $("canvas").remove();
@@ -380,17 +348,6 @@ class App extends React.Component {
         }
       }
     });
-    let circleGit = this.Bodies.circle(150, -boxWidth, boxWidth*.75, {
-      label: 'Github',
-      isStatic: true,
-      render: {
-        sprite: {
-          texture: 'icons/github.svg',
-          xScale: boxWidth/438.549/.70,
-          yScale: boxWidth/438.549/.70
-        }
-      }
-    })
     let circleEmail = this.Bodies.circle(150, -400, boxWidth*.75, {
       label: 'Email',
       isStatic: true,
@@ -462,19 +419,7 @@ class App extends React.Component {
         }
       }
     });
-    let boxSublime = this.Bodies.rectangle(width/1.2, -boxWidth, boxWidth, boxWidth, {
-      label: 'Sublime Text',
-      angle: 5,
-      isStatic: true,
-      render: {
-        sprite: {
-          texture: 'icons/sublime.png',
-          xScale: boxWidth/256,
-          yScale: boxWidth/256
-        }
-      }
-    });
-    this.World.add(this.engine.world, [this.mouseConstraint, boxName, circleName, circleEmail, boxJS, boxHTML, boxReact, boxAngular, boxSQL, boxMongo, boxJQuery, boxSublime, ground, leftWall, rightWall, ceiling])
+    this.World.add(this.engine.world, [this.mouseConstraint, boxName, circleName, circleEmail, boxJS, boxHTML, boxReact, boxAngular, boxSQL, boxMongo, boxJQuery, ground, leftWall, rightWall, ceiling])
     setTimeout(() => {
       this.Body.setStatic(boxJS, false)
     },1000)
@@ -490,7 +435,6 @@ class App extends React.Component {
     },3000)
     setTimeout(() => {
       this.Body.setStatic(boxJQuery, false)
-      this.Body.setStatic(boxSublime, false)
       if (!isMobile) this.Body.setStatic(circleEmail, false)
     },3400)
     setTimeout(() => {

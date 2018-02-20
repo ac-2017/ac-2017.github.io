@@ -9,9 +9,11 @@ const PortfolioContent = (props) => (
         for both front-end and back-end applications, with both noSQL and SQL database experience. Built 
           several full-stack web applications ranging from Twitter analysis to social network real-time chatting. 
         Great leadership skills with a knack for analyzing the strengths and weaknesses of my team and 
-        giving them the opportunity to utilize their skills at maximum efficiency. Super fast learning speed. 
-        This portfolio and list of projects is the culmination of hundreds of hours of dedication to my craft.
-
+        giving them the opportunity to utilize their skills at maximum efficiency. Super fast learning and debugging capabilities. 
+        Lectured students on fullstack fundamentals and offered code review sessions regularly.  
+        This portfolio is the culmination of hundreds of hours of dedication to my craft.
+        <br/>
+        Currently @ <a href="https://www.hackreactor.com/" target="_blank" style={{textDecoration:'none'}}>Hack Reactor</a>, NYC
         </p>
       </div>
     </div>
@@ -41,7 +43,7 @@ const PortfolioContent = (props) => (
     <div className="footer_info">
     <a href="https://www.linkedin.com/in/aaron-chan/" target="_blank" style={{marginRight:'10px', textDecoration:'none'}}>LinkedIn</a>
     <a href="https://github.com/ac-2017" target="_blank" style={{marginRight:'10px', textDecoration:'none'}}>Github</a>
-    <a href="mailto:aaron.111317@gmail.com" style={{textDecoration:'none'}}>Email</a>
+    <a href="mailto:aaron.111317@gmail.com?subject=Job Offer&body=Hey, Aaron!" style={{textDecoration:'none'}}>Email</a>
     </div></div>
   </div>
 )

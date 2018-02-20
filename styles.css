@@ -138,12 +138,18 @@ p.webdev2{
 .container_item.wide {
   -webkit-transition-duration: 750ms;
   transition-duration: 750ms;
+
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+}
+.container_item.wide{
+  will-change: transform;
 }
 .container_item.wide.loading:nth-child(odd) {
-  transform: translate(150%);
+  transform: translateX(150%);
 }
 .container_item.wide.loading:nth-child(even) {
-  transform: translate(-150%);
+  transform: translateX(-150%);
 }
 
 
@@ -342,5 +348,4 @@ button:active{
 
 .scroll-down:hover {
   opacity:.5;
-
 }
