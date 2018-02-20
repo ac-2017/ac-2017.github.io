@@ -49,6 +49,48 @@ class App extends React.Component {
     this.windowWidth = null;
   }
   componentDidMount() {
+    $.fn.isOnScreen = function(){
+
+    var win = $(window);
+
+    var viewport = {
+        top : win.scrollTop(),
+        left : win.scrollLeft()
+    };
+    viewport.right = viewport.left + win.width();
+    viewport.bottom = viewport.top + win.height();
+
+    var bounds = this.offset();
+    bounds.right = bounds.left + this.outerWidth();
+    bounds.bottom = bounds.top + this.outerHeight();
+
+    return (!(viewport.bottom*.90 < bounds.top || viewport.top > bounds.bottom));
+
+    };
+
+     $(window).scroll(function() {
+       if ($('.one').isOnScreen() == true) {
+         // alert("removing orange");
+         // console.log('onscreen')
+         $('.one').removeClass("loading")   
+       }
+       if ($('.two').isOnScreen() == true) {
+         // alert("removing orange");
+         $('.two').removeClass('loading')   
+       }
+       if ($('.three').isOnScreen() == true) {
+         // alert("removing orange");
+         $('.three').removeClass('loading')   
+       }
+       if ($('.four').isOnScreen() == true) {
+         // alert("removing orange");
+         $('.four').removeClass('loading')   
+       }
+      });  
+
+
+
+
     this.createWorld()
     this.windowWidth = $(window).width();
       $(window).resize(() => {
@@ -432,27 +474,29 @@ class App extends React.Component {
         }
       }
     });
-    this.World.add(this.engine.world, [this.mouseConstraint, boxName, circleName, circleEmail, boxJS, boxHTML, circleGit, boxReact, boxAngular, boxSQL, boxMongo, boxJQuery, boxSublime, ground, leftWall, rightWall, ceiling])
+    this.World.add(this.engine.world, [this.mouseConstraint, boxName, circleName, circleEmail, boxJS, boxHTML, boxReact, boxAngular, boxSQL, boxMongo, boxJQuery, boxSublime, ground, leftWall, rightWall, ceiling])
     setTimeout(() => {
       this.Body.setStatic(boxJS, false)
     },1000)
     setTimeout(() => {
       this.Body.setStatic(boxHTML, false)
     },2000)
-    setTimeout(() => {
-      if (!isMobile) this.Body.setStatic(circleGit, false)
-    },2000)
+    // setTimeout(() => {
+    //   if (!isMobile) this.Body.setStatic(circleGit, false)
+    // },2000)
     setTimeout(() => {
       this.Body.setStatic(boxReact, false)
       this.Body.setStatic(boxAngular, false)
     },3000)
     setTimeout(() => {
       this.Body.setStatic(boxJQuery, false)
-      this.Body.setStatic(boxMongo, false)
-      this.Body.setStatic(boxSQL, false)
       this.Body.setStatic(boxSublime, false)
       if (!isMobile) this.Body.setStatic(circleEmail, false)
     },3400)
+    setTimeout(() => {
+      this.Body.setStatic(boxMongo, false)
+      this.Body.setStatic(boxSQL, false)
+    }, 4500)
   }
   render () {
     return (<div style={{height: '100%'}}><div style={{animation: 'fadein 1s'}}>
@@ -462,7 +506,7 @@ class App extends React.Component {
       </div>
       {/*<p style={{color: '#fff'}}>{this.state.rotationSupported + ' alpha ' + this.state.alpha + ' beta ' +  this.state.beta + ' gamma ' + this.state.gamma}</p>*/}
       <div id="MatterJS"></div>
-      <PortfolioContent/>
+      <PortfolioContent handleModal={this.handleModal}/>
       </div>
       )
   }

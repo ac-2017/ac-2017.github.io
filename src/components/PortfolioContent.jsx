@@ -5,36 +5,44 @@ const PortfolioContent = (props) => (
     <div className="container">
       <div className="container_item">
         <h1>Fullstack Web Developer</h1>
-        <p>Hi, my name is Aaron, and I build cool web applications. My primary tools include React, 
-        Node, Express, and both noSQL and SQL databases. I've built several full-stack web 
-        applications ranging from text analysis to social network real-time chatting. I've been programming in 
-        JavaScript ES6 since 2017, and have a strong foundation in HTML and CSS. This portfolio and 
-        list of projects is the culmination of hundreds of hours of hard work and discipline for my 
-        craft. I won't bore you with buzzwords or show you a website created with free boilerplate. 
-        There are no templates, no cookie cutter site generators, only raw coding ability and engineering 
-        precision. Give me a project and I will consume it. 
+        <p>Hi, my name is Aaron, and I build cool web applications. Skilled at JavaScript based solutions 
+        for both front-end and back-end applications, with both noSQL and SQL database experience. Built 
+          several full-stack web applications ranging from Twitter analysis to social network real-time chatting. 
+        Great leadership skills with a knack for analyzing the strengths and weaknesses of my team and 
+        giving them the opportunity to utilize their skills at maximum efficiency. Super fast learning speed. 
+        This portfolio and list of projects is the culmination of hundreds of hours of dedication to my craft.
+
         </p>
       </div>
     </div>
     <div className="container dark">
-      <div className="container_item wide">
+      <div className="container_item wide loading one">
         <span className="vertical_helper"></span><img height="200px" src="https://cdn.dribbble.com/users/31731/screenshots/384224/attachments/20536/imac-template.png"/>
-        <span className="container_item wide content"><h1>Friend.ly</h1><p>Public event oriented social network with real-time chat</p><p>Firebase, AWS, Google Maps</p></span>
+        <span className="container_item wide content"><h1>Friend.ly</h1><p>Event oriented social network with real-time chatting</p><p>Firebase, AWS, Google Maps</p></span>
       </div>
-      <div className="container_item wide">
+      <div className="container_item wide loading two">
         <span className="vertical_helper"></span><img height="200px" src="https://placeit.net/uploads/stage/stage_image/11392/default_watermarked_17152base.png"/>
-        <span className="container_item wide content"><h1>OkCoupon</h1><p>Online coupon aggregator designed for mobile</p><p>AWS, Bootstrap, Sqoot API</p></span>
+        <span className="container_item wide content"><h1>OkCoupon</h1><p>Online coupon aggregator designed for a mobile experience</p><p>AWS, Bootstrap, Sqoot API</p></span>
       </div>
-      <div className="container_item wide">
-        <span className="vertical_helper"></span><img height="200px" src="https://cdn.dribbble.com/users/31731/screenshots/384224/attachments/20536/imac-template.png"/>
+      <div className="container_item wide loading three">
+        <span className="vertical_helper"></span><img height="200px" src="/icons/flockapp.png"/>
         <span className="container_item wide content"><h1>Flock</h1><p>Twitter sentiment analyzer with an amazing user interface</p><p>MongoDB, Twitter OAuth, SCSS</p></span>
       </div>
-      <div className="container_item wide">
-        <span className="vertical_helper"></span><img height="200px" src="https://placeit.net/uploads/stage/glare_image/5020/default_a11409glare.png"/>
-        <span className="container_item wide content"><h1>Kaleidoscope Dashboard</h1><p>A dashboard designed for a browser homepage which combines useful info daily</p><p>Google OAuth2.0, Google User suite, News API</p></span>
+      <div className="container_item wide loading four">
+        <span className="vertical_helper"></span><img height="200px" src="/icons/dashboardapp.png"/>
+        <span className="container_item wide content"><h1>Kaleidoscope Dashboard</h1><p>A dashboard overview of your day designed for Chrome Extensions</p><p>Google OAuth2.0, Google User suite, News API</p></span>
+      </div>
+
+      <div className="container_item wide mobile">
+        <span className="vertical_helper"></span><img onClick={() => {props.handleModal()}}height="200px" src="/icons/email.png"/>
       </div>
     </div>
-    <div style={{textAlign: 'center', padding: '10px', backgroundColor: 'rgba(29, 31, 33, .5)', color: '#fff'}}>Copyright 2018 Aaron Chan</div>
+    <div style={{textAlign: 'center', padding: '10px', backgroundColor: 'rgba(29, 31, 33, .5)', color: '#fff'}}>Copyright 2018 Aaron Chan
+    <div className="footer_info">
+    <a href="https://www.linkedin.com/in/aaron-chan/" target="_blank" style={{marginRight:'10px', textDecoration:'none'}}>LinkedIn</a>
+    <a href="https://github.com/ac-2017" target="_blank" style={{marginRight:'10px', textDecoration:'none'}}>Github</a>
+    <a href="mailto:aaron.111317@gmail.com" style={{textDecoration:'none'}}>Email</a>
+    </div></div>
   </div>
 )
 

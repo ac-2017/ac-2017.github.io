@@ -3,11 +3,13 @@
   padding:0;
   font-family: 'Roboto', sans-serif;
   text-rendering: optimizeLegibility;
+  /*overflow-x:hidden;*/
 }
 body {
   margin: 0;
   padding: 0;
   background-color:rgba(29, 31, 33, .9);
+  overflow-x:hidden;
 }
 #app {
   margin:0;
@@ -78,6 +80,7 @@ p.webdev2{
   margin: auto;*/
   padding-top: 4em;
   padding-bottom:6em;
+  overflow-x:hidden;
 }
 .container.dark {
   background-color: #e6e8ec;
@@ -106,6 +109,7 @@ p.webdev2{
 .container_item.wide {
   text-align: center;
   margin-bottom: 6em;
+
 }
 .container_item.wide > img {
   vertical-align:middle;
@@ -122,16 +126,70 @@ p.webdev2{
   width: 90%;
   margin:auto;
 }
+.container_item.wide.mobile {
+  display: none;
+}
 .vertical_helper {
   vertical-align:middle;
   height:100%;
   display: inline-block;
 }
 
+.container_item.wide {
+  -webkit-transition-duration: 750ms;
+  transition-duration: 750ms;
+}
+.container_item.wide.loading:nth-child(odd) {
+  transform: translate(150%);
+}
+.container_item.wide.loading:nth-child(even) {
+  transform: translate(-150%);
+}
+
+
+.info_modal {
+  font-size:50px;
+  margin:auto;
+  width:50%;
+  background-color:#ecf0f1;
+  animation: fadein .7s;
+  text-align: center;
+  height: 50%;
+  overflow:hidden;
+  border-radius:10px;
+
+
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  padding: 20px;
+}
+
+.info_modal_overlay {
+  animation: fadein .7s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.75)
+}
+
+.footer_info {
+  font-size: 25px;
+}
+
 @media screen and (max-width: 960px) {
   .content {
     /*padding-top: 2em;*/
-    padding-bottom: 3em;
+    /*padding-bottom: 3em;*/
   }
   .container {
     
@@ -159,6 +217,15 @@ p.webdev2{
     text-align:center;
     width: auto;
   }
+  .container_item.wide.mobile {
+    display: inherit;
+  }
+  .info_modal{
+    font-size:30px;
+  }
+  .footer_info {
+  display: none;
+}
 }
 button.closeModal{
   background: rgba(21, 116, 205, 0.9);
